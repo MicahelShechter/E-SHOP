@@ -1,0 +1,4 @@
+{
+  "MongoURI" : "mongodb+srv://dba:47QsGZYnW7Z7Fllm@cluster0-rx3gv.mongodb.net/Market?retryWrites=true&w=majority",
+  "jwtSecret": "R3XyOp"
+}

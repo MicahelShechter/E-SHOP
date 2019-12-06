@@ -1,0 +1,23 @@
+<mat-toolbar color="primary">
+<mat-toolbar-row>
+  <a routerLink="/">
+  <img src="assets/img/online-shop.png" alt="shop-brand">
+  </a>
+  <span>E-SHOP</span>
+  <span class="example-spacer"></span>
+  <span>972-500009</span>
+  <mat-icon class="example-icon" aria-hidden="false" aria-label="Example heart icon">phone</mat-icon>
+  <button mat-raised-button color="accent"   *ngIf="!authService.isUserLoggedIn()" routerLink="register">Register</button>
+<!--  <button mat-raised-button color="accent"  *ngIf="!authService.isUserLoggedIn()" routerLink="login">Login</button>-->
+  <button id="avatarBtn" mat-button *ngIf = authService.isUserLoggedIn()>Hello {{authService.currentUserData.firstName}}
+    <img id="avatar-img" src="assets/img/avatar-boy.png" alt="avatar-img"  [matMenuTriggerFor]="menu" >
+  </button>
+  <mat-menu color="accent" #menu="matMenu">
+    <button class="justifier" mat-menu-item routerLink="dashboard">Dashboard</button>
+    <button class="justifier" mat-menu-item routerLink="shop">
+      Shop
+    </button>
+    <button class="justifier"  mat-menu-item (click)="onlogOut()">Logout</button>
+  </mat-menu>
+</mat-toolbar-row>
+</mat-toolbar>

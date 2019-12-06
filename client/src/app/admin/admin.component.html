@@ -1,0 +1,66 @@
+<button  mat-raised-button color="accent" class="addBtn" (click)="openAddDialog(categories) ">
+  <mat-icon>add_circle_outline</mat-icon>
+Add Product</button>
+<div
+  class="container"
+  fxLayoutAlign="center"
+  fxLayoutGap="10px"
+  fxLayout ="row wrap"
+  fxLayoutGap.xs="column"
+>
+  <mat-card fxFlex="20%"  *ngFor="let product of products">
+    <mat-card-header fxLayoutAlign="center">
+      <img mat-card-image  class="product-image" src="{{product.imageURL}}" alt="Photo of {{product.name}}" fxLayoutAlign="center">
+    </mat-card-header>
+    <mat-card-content fxLayoutAlign="center">
+      <p >{{product.name}}</p>
+    </mat-card-content>
+    <mat-card-content fxLayoutAlign="center">
+      <p>Price:{{product.price | currency: USD}}</p>
+    </mat-card-content>
+    <mat-card-actions fxLayoutAlign="center">
+        <button mat-raised-button color="accent" (click)="openEditDialog(product) ">
+          <mat-icon>edit</mat-icon>
+          Edit</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<button mat-button color="primary" (click)="openAddDialog(categories) ">Add Product</button>-->
+<!--<div class="container"-->
+<!--       fxLayout ="row"-->
+<!--       fxLayoutAlign="start"-->
+<!--       fxLayoutGap="10px"-->
+<!--       fxLayoutGap.xs="0">-->
+<!--<mat-card *ngFor="let product of products" class="example-card item">-->
+<!--  <mat-card-header>-->
+<!--    <div mat-card-avatar class="example-header-image"></div>-->
+<!--    <mat-card-title>{{product.name}}</mat-card-title>-->
+<!--  </mat-card-header>-->
+<!--  <img mat-card-image  class="product-image" src="{{product.imageURL}}" alt="Photo of  {{product.name}}">-->
+<!--  <mat-card-content>-->
+<!--    <p>Price:{{product.price | currency: USD}}</p>-->
+<!--  </mat-card-content>-->
+<!--  <mat-card-actions>-->
+<!--    <button mat-button (click)="openEditDialog(product) ">Edit</button>-->
+<!--  </mat-card-actions>-->
+<!--</mat-card>-->
+<!--</div>-->

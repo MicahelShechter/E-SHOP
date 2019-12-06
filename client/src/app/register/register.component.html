@@ -1,0 +1,112 @@
+<!--FIXME: fix user  error mgs-->
+<div class="form-wraper">
+  <div class="container card">
+    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+      <mat-step [stepControl]="firstFormGroup">
+        <div class="signup-header">
+        </div>
+        <form (ngSubmit)="onFirstStepSubmit(stepper)" [formGroup]="firstFormGroup">
+          <ng-template matStepLabel>First Step</ng-template>
+          <mat-form-field>
+            <mat-label>Your Identity Number</mat-label>
+            <input matInput placeholder="9 Digits..."
+                   formControlName="idNumber"
+                   type="string"
+            >
+            <mat-error *ngIf="firstFormGroup.get('idNumber').errors?.serverError">
+              {{ firstFormGroup.get('idNumber').errors?.serverError }}
+            </mat-error>
+          </mat-form-field>
+          <p></p>
+
+          <mat-form-field>
+            <mat-label>Your Email</mat-label>
+            <input matInput placeholder="Shopping@Experience.com" formControlName="email">
+
+            <mat-error *ngIf="firstFormGroup.get('email').errors?.serverError">
+              {{ firstFormGroup.get('email').errors?.serverError }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Your Password</mat-label>
+            <input type="password" matInput placeholder="Password" formControlName="password">
+            <mat-error *ngIf="firstFormGroup.get('password').errors?.serverError">
+              {{ firstFormGroup.get('password').errors?.serverError }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field >
+            <mat-label>Confirm Password</mat-label>
+            <input type="password" matInput placeholder="Confirm Password" formControlName="password2">
+            <mat-error *ngIf="firstFormGroup.get('password2').errors?.serverError">
+              {{ firstFormGroup.get('password2').errors?.serverError }}
+            </mat-error>
+          </mat-form-field>
+          <div class="to-center">
+            <button mat-button class="sm-btn custom-btn" (click)="goForward(stepper)" type="submit">NEXT
+              <mat-icon>forward</mat-icon>
+            </button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="secondFormGroup">
+        <form (ngSubmit)="onSecondStepSubmit()" [formGroup]="secondFormGroup">
+          <ng-template matStepLabel>Second Step</ng-template>
+          <mat-form-field >
+            <mat-label>Your First Name</mat-label>
+            <input matInput placeholder="Nmae"
+                   formControlName="firstName">
+
+            <mat-error *ngIf="secondFormGroup.get('firstName').errors?.serverError">
+              {{ secondFormGroup.get('firstName').errors?.serverError }}
+            </mat-error>
+            <mat-error *ngIf="secondFormGroup.controls['firstName'].errors?.pattern">Please insert characters only
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Your Last Name</mat-label>
+            <input matInput placeholder="last"
+                   formControlName="lastName">
+            <mat-error *ngIf="secondFormGroup.get('lastName').errors?.serverError">
+              {{ secondFormGroup.get('lastName').errors?.serverError }}
+            </mat-error>
+            <mat-error *ngIf="secondFormGroup.controls['lastName'].errors?.pattern">Please insert characters only>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Your City</mat-label>
+            <mat-select placeholder="City"    formControlName="city">
+              <mat-option value="Tel-Aviv">
+                  Tel-Aviv
+              </mat-option>
+              <mat-option value="Ramat-Gan">
+                Ramat-Gan
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="secondFormGroup.get('city').errors?.serverError">
+              {{ secondFormGroup.get('city').errors?.serverError }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Your Address</mat-label>
+            <input matInput placeholder="Street" formControlName="street">
+            <mat-error *ngIf="secondFormGroup.get('street').errors?.serverError">
+              {{ secondFormGroup.get('street').errors?.serverError }}
+            </mat-error>
+          </mat-form-field>
+          <div class="to-center">
+            <button mat-button class="sm-btn custom-btn " matStepperPrevious>BACK
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-button class="sm-btn custom-btn" type="submit"
+                    style="margin:0 7px">CONTINUE
+              <mat-icon>shopping_cart</mat-icon>
+            </button>
+          </div>
+        </form>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </div>
+</div>

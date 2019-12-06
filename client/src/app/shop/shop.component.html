@@ -1,0 +1,61 @@
+<mat-drawer-container>
+  <mat-drawer mode="side" [(opened)]="this.opened">
+    <mat-header-row>Your Cart</mat-header-row>
+    <div *ngIf="this.authService.userCart.products.length == 0 else CartDetail ">
+      <h2>Your cart is Empty</h2>
+    </div>
+    <ng-template #CartDetail>
+      <h2>Your cart:</h2>
+      <!--        *ngFor ="let product of  currentCartProducts ">-->
+      <div
+
+      *ngFor ="let product of  this.cartService.carProduct ">
+      <mat-card>
+        <mat-card-actions>
+        <button  mat-button id="removeBtn" (click)="removeCartItem(product._id)">
+          <img id="removeItemImg" src="/assets/img/icons8-remove-48.png" alt=""removeItem>
+        </button>
+        </mat-card-actions>
+
+        <p><span>{{productsObj[product._id].name}}</span>
+          <p><span>quantity:{{product.quantity}}</span></p>
+        <img src="{{productsObj[product._id].imageURL}}" alt="">
+      </mat-card>
+
+
+
+
+ </div>
+    </ng-template>
+    <mat-nav-list>
+    </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <button class="CartBtn" mat-raised-button color="accent" (click)="opened = !this.opened">{{opened ? 'Close Cart':'Open Cart'}}</button>
+
+        <div
+          class="container"
+          fxLayoutAlign="center"
+          fxLayoutGap="10px"
+          fxLayout ="row wrap"
+          fxLayoutGap.xs="column"
+        >
+        <mat-card fxFlex="20%"  *ngFor="let product of products">
+          <mat-card-header fxLayoutAlign="center">
+            <img mat-card-image  class="product-image" src="{{product.imageURL}}" alt="Photo of {{product.name}}" fxLayoutAlign="center">
+            </mat-card-header>
+          <mat-card-content fxLayoutAlign="center">
+           <p >{{product.name}}</p>
+          </mat-card-content>
+          <mat-card-content fxLayoutAlign="center">
+            <p>Price:{{product.price | currency: USD}}</p>
+          </mat-card-content>
+          <mat-card-actions fxLayoutAlign="center">
+            <button mat-raised-button   color="primary" (click)="openDialog(product)">
+              <mat-icon>shopping_cart</mat-icon>
+              Add to cart</button>
+          </mat-card-actions>
+        </mat-card>
+        </div>
+  </mat-drawer-content>
+</mat-drawer-container>

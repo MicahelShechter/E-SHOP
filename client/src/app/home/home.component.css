@@ -1,0 +1,13 @@
+
+#myVideo {
+  right: 0;
+  bottom: 0;
+  top: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  z-index: -1;
+  background: #225470;
+  opacity: 0.65;
+  position: fixed;
+}
+

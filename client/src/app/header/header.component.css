@@ -1,0 +1,30 @@
+.example-icon {
+  padding: 0 14px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+#avatar-img{
+  max-width: 40px;
+  max-height: 40px;
+  padding-left: 5px;
+}
+
+#avatarBtn{
+  padding: 0;
+}
+
+.mat-raised-button{
+  margin-right: 10px;
+}
+
+.mat-menu-item:hover{
+  background-color:#ffd740 ;
+}
+
+
+.mat-toolbar{
+  z-index: 2;
+}

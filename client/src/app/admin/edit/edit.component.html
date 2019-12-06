@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>Edit Product</h2>
+<form [formGroup]="editProductForm" (ngSubmit)="save(data.preEditFields._id)">
+  <mat-dialog-content class="mat-typography">
+    <div class="form-body">
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input class="form-input" matInput
+               placeholder="{{(data.preEditFields.name) }}"
+               formControlName="name"
+               [value]="data.preEditFields.name">
+        <mat-error *ngIf="editProductForm.controls['name'].errors?.required">Product name is required.</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Price</mat-label>
+        <input class="form-input" matInput
+               type="number"
+               [min]="0"
+               placeholder="{{ data.preEditFields.price | currency: 'USD'}}"
+               formControlName="price"
+               [value]="data.preEditFields.price"
+        >
+        <mat-error *ngIf="editProductForm.controls['price'].errors?.required">Price is required.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Image URL</mat-label>
+        <input class="form-input" matInput
+               placeholder="{{ data.preEditFields.imageURL }}"
+               formControlName="imageURL"
+               [value]="data.preEditFields.imageURL"
+        >
+        <mat-error *ngIf="editProductForm.controls['imageURL'].errors?.required">Image URL is required.</mat-error>
+      </mat-form-field>
+
+    </div>
+  </mat-dialog-content>
+  <div class="form-footer">
+    <mat-dialog-actions align="end">
+      <button mat-raised-button mat-dialog-close color="accent">Cancel</button>
+      <button mat-raised-button type="submit" color="primary" [disabled]="!editProductForm.valid">Save Changes</button>
+    </mat-dialog-actions>
+  </div>
+</form>

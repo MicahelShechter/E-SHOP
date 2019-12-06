@@ -1,0 +1,18 @@
+mat-card{
+  max-width: 400px;
+  min-height: 400px;
+  opacity: 0.65;
+  margin-top: 26px;
+}
+h2{
+  color: #673ab7;
+  text-decoration-style: solid;
+}
+
+p{
+  color: #ffd740;
+  font-family: 'Bebas Neue', cursive;
+  font-size: 20px;
+  word-spacing: 8px;
+  line-height: 25px;
+}

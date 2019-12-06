@@ -1,0 +1,57 @@
+
+.mat-card{
+  margin-bottom: 1%;
+ }
+
+.mat-card-image{
+  height: 80px;
+  width: 80px;
+  margin: auto auto 5px;
+}
+.CartBtn{
+  margin: 10px;
+}
+
+#card-cart-img{
+  height: 40px;
+  width: 40px;
+
+}
+
+.mat-card-content p{
+
+  margin: auto  ;
+}
+
+
+
+
+mat-drawer,mat-drawer-content{
+  padding: 16px;
+}
+
+mat-drawer{
+  width: 350px;
+}
+
+
+.mat-card{
+  transition: background-color 1s ease;
+  border-radius: 15px;
+  /*box-shadow: 5px 10px #888888;*/
+
+}
+
+.mat-card:hover{
+    background: #ffd740 ;
+}
+
+#removeItemImg{
+  height: 25px;
+}
+#removeBtn{
+  padding: 0;
+  border: none;
+  background: none;
+  float: right;
+}
