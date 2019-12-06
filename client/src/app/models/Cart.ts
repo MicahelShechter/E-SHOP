@@ -5,6 +5,6 @@ export interface Cart {
   isOpen: boolean;
   products: [];
   status?: number;
-  cartPrice: number;
+  totalCartPrice: number;
   cart: Cart;
 }

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import { ProductService} from '../services/product.service';
 import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import {Product} from '../models/Product';
@@ -27,6 +26,7 @@ export class ShopComponent implements OnInit {
   cart: Cart;
   currentCartProducts: Product[];
   categories: Category[];
+  totalCartPrice: number = 0;
   totalCartProductsQuantity: number;
   constructor(
     private productService: ProductService,
@@ -44,16 +44,19 @@ export class ShopComponent implements OnInit {
     this.userId = this.authService.currentUserData.id;
     this.userToken = this.authService.currentUserToken;
     this.getUserCartStatus();
-    // this.cartId = this.authService.userCart._id;
+    this.cartId = this.authService.userCart._id;
+    this.totalCartPrice = this.authService.userCart.totalCartPrice;
     this.getAllProducts();
     this.getAllCategories();
+    console.log(this.totalCartPrice);
   }
 
-  openDialog(product): void {
+  openDialog(product, productList): void {
     console.log(product);
     const dialogRef = this.dialog.open(ShopAddComponent,{
       data: {
-          product: product
+          product: product,
+          productList: productList
       }
     });
 
@@ -126,14 +129,29 @@ export class ShopComponent implements OnInit {
       // this.currentCartProducts = data;
     });
   }
+  emptyCart() {
+    console.log('bal');
+    this.cartService.deleteAllProductsFromCart(this.cartId, this.userToken).subscribe(data => {
+      console.log(data);
+      this.updateLocalStorage(data);
+      this.cartService.carProduct = this.authService.userCart.products;
+      // this.setTotalPrice();
+      // this.setTotalCartProductsQuantity();
+    });
+    // const status = {isOpen: 0};
+    // const cartId = this.cartId;
+    // this.updateCartStatus(cartId, status);
+    // this.quantity = 0;
+  }
 
 
   updateLocalStorage(cartData) {
     this.authService.storecartData(cartData);
     this.authService.loadUserCart();
     // TODO: cahnge
+    console.log(this.authService.userCart.products);
     // this.currentCartProducts = this.authService.userCart.products;
-    this.cartService.carProduct = this.authService.userCart.products
+    this.cartService.carProduct = this.authService.userCart.products;
   }
   }
 

@@ -1,9 +1,10 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {Product} from '../../models/Product';
 import {CartService} from '../../services/cart.service';
 import {AuthService} from '../../services/auth.service';
+import {ProductService} from '../../services/product.service';
 
 
 
@@ -22,10 +23,12 @@ export class ShopAddComponent implements OnInit {
   totalPrice: number;
   productId: string;
   formQantity: number;
-
+  @Input() productsObj: {};
+  productList: [];
 
   constructor(
     private cartService: CartService,
+    private productService: ProductService,
     private authService: AuthService,
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<ShopAddComponent>,
@@ -45,11 +48,15 @@ export class ShopAddComponent implements OnInit {
     this.cartId = this.authService.userCart._id;
     this.getUserCartStatus();
 
+
+
     this.addToCartForm = this.formBuilder.group({
       quantity: ['', Validators.required]
     });
     const addFrom = this.addToCartForm.controls;
     const productId = this.data.product;
+    this.productList  = this.data.productList;
+    console.log(this.productList);
   }
   addToCart(productParam) {
     // TODO: remove all console.log
@@ -70,6 +77,8 @@ export class ShopAddComponent implements OnInit {
         console.log(data);
         this.updateLocalStorage(data);
         this.cartService.carProduct = this.authService.userCart.products;
+        // this.cartService.setTotalPrice();
+        this.setTotalPrice();
         this.dialogRef.close();
        });
        } else if (cartProduct._id === productParam._id) {
@@ -79,6 +88,7 @@ export class ShopAddComponent implements OnInit {
        this.quantity += this.formQantity;
        this.cartService.addProductToCart(this.cartId, {_id: this.productId, quantity: this.quantity}).subscribe(data => {
          this.updateLocalStorage(data);
+         this.cartService.carProduct = this.authService.userCart.products;
          this.dialogRef.close();
       });
     }
@@ -94,7 +104,20 @@ export class ShopAddComponent implements OnInit {
       // this.setTotalPrice();
     });
   }
-
+  setTotalPrice() {
+    for (const  i  of this.currentCartProducts) {
+      console.log(`Set price | item = ${this.productList[i._id].price}`);
+      console.log(`quantity = ${i.quantity}`);
+      this.totalPrice += i.quantity *   this.productList[i._id].price;
+      console.log(this.totalPrice);
+    }
+  }
+  updateCartPrice() {
+    const totalCartPrice = {totalCartPrice: this.totalPrice};
+    this.cartService.setCartTotalPrice(this.cartId, totalCartPrice, this.userToken).subscribe(data => {
+      this.updateLocalStorage(data);
+    });
+  }
 
   updateLocalStorage(cartData) {
     this.authService.storecartData(cartData);

@@ -11,8 +11,9 @@ router.post("/createCart",async (req, res) => {
     const cart = new Cart({
         userId: req.body.userId,
         isOpen: 0,
+        totalCartPrice: 1,
         date: new Date(),
-        totalPrice: 0
+
     });
     cart.save()
         .then(cart =>{
@@ -133,18 +134,36 @@ router.put("/deleteProductFromCart/:id",async (req,res)=>{
 });
 
 router.put("/deleteAllProducts/:cardId", async (req,res)=>{
-    Cart.updateOne({_id: req.params.id}, {products: []},
-        {safe: true, multi: true})
-        .then(() => {
-            Cart.findOne({_id: req.params.id})
-                .then(cart => {
-                    res.status(200).json(cart);
-                })
-        }).catch(err => {
-        console.error(err);
-        res.status(500).send(err);
-    });
+    console.log(`In the delete all cart product route || cartId = ${req.params.cardId}`);
+    Cart.updateOne({_id: req.params.cardId}, {products: []},
+            {safe: true, multi: true})
+            .then(() => {
+                Cart.findOne({_id: req.params.cardId})
+                    .then(cart => {
+                        console.log(`The return cart value is ${cart}`);
+                        res.status(200).json(cart);
+                    })
+            }).catch(err => {
+            console.error(err);
+            res.status(500).send(err);
+        });
 });
+
+
+router.put('/setCartTotalPrice/:id',async (req,res) =>{
+   Cart.findOneAndUpdate({_id:req.params.id},{totalCartPrice:req.body.totalCartPrice})
+       .then(()=>{
+           Cart.findOne({_id: req.params.id})
+               .then(cart => {
+                   res.status(200).json(cart)
+               })
+       })
+       .catch(err =>{
+           res.status(500).send(err);
+       })
+});
+
+
 
 module.exports = router;
 

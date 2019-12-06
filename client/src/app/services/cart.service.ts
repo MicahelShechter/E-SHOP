@@ -3,6 +3,7 @@ import {Cart} from '../models/Cart';
 import {Product} from '../models/Product';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AuthService} from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,10 @@ import { Observable } from 'rxjs';
 export class CartService {
   cart: Cart;
   carProduct: Product[];
-  constructor(private http: HttpClient ) { }
+
+  constructor(private http: HttpClient,
+              private authService: AuthService
+  ) { }
   createCart(userId): Observable<Cart> {
     return this.http.post<Cart>(
       `http://localhost:3000/api/cart/createCart/`, {userId});
@@ -42,6 +46,11 @@ export class CartService {
       `http://localhost:3000/api/cart/deleteAllProducts/${cartId}`, {headers: {Authorization: token }});
   }
 
+  setCartTotalPrice(cartId, totalCartPrice, token): Observable<Cart> {
+    return this.http.put<Cart>(
+      `http://localhost:3000/api/cart/setCartTotalPrice/${cartId}`,
+      totalCartPrice);
+  }
 }
 const httpOptions = {
   headers: new HttpHeaders({
