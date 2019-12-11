@@ -13,10 +13,7 @@
     <img id="avatar-img" src="assets/img/avatar-boy.png" alt="avatar-img"  [matMenuTriggerFor]="menu" >
   </button>
   <mat-menu color="accent" #menu="matMenu">
-    <button class="justifier" mat-menu-item routerLink="dashboard">Dashboard</button>
-    <button class="justifier" mat-menu-item routerLink="shop">
-      Shop
-    </button>
+    <button *ngIf="userData?.admin && this.router.url ==='/shop' " class="justifier"  mat-menu-item routerLink="admin">Admin Dashboard</button>
     <button class="justifier"  mat-menu-item (click)="onlogOut()">Logout</button>
   </mat-menu>
 </mat-toolbar-row>

@@ -5,6 +5,7 @@ import {Product} from '../../models/Product';
 import {CartService} from '../../services/cart.service';
 import {AuthService} from '../../services/auth.service';
 import {ProductService} from '../../services/product.service';
+import {forEach} from "@angular/router/src/utils/collection";
 
 
 
@@ -44,7 +45,6 @@ export class ShopAddComponent implements OnInit {
     this.authService.loadUserCart();
     this.userId = this.authService.currentUserData.id;
     this.userToken = this.authService.currentUserToken;
-    // console.log(this.authService.userCart);
     this.cartId = this.authService.userCart._id;
     this.getUserCartStatus();
 
@@ -56,7 +56,6 @@ export class ShopAddComponent implements OnInit {
     const addFrom = this.addToCartForm.controls;
     const productId = this.data.product;
     this.productList  = this.data.productList;
-    console.log(this.productList);
   }
   addToCart(productParam) {
     // TODO: remove all console.log
@@ -65,20 +64,16 @@ export class ShopAddComponent implements OnInit {
     this.formQantity = Number(this.addToCartForm.getRawValue().quantity);
     console.log(this.formQantity);
     const  cartProduct = this.currentCartProducts.find(product => product._id === productParam._id);
-    console.log(cartProduct);
-    console.log(`This is a log msg`);
     if (cartProduct === undefined) {
       this.productId = productParam._id;
       this.quantity += this.formQantity;
       console.log(`this quantiy value ->  ${this.quantity}`);
       console.log(`Cart id  = ${this.cartId}`);
       this.cartService.addProductToCart(this.cartId, {_id: this.productId, quantity: this.quantity}).subscribe(data => {
-        // console.log(`The data returns after adding new produt to cart  -> ${data._id}`);
-        console.log(data);
         this.updateLocalStorage(data);
         this.cartService.carProduct = this.authService.userCart.products;
-        // this.cartService.setTotalPrice();
         this.setTotalPrice();
+        this.updateCartPrice();
         this.dialogRef.close();
        });
        } else if (cartProduct._id === productParam._id) {
@@ -89,6 +84,8 @@ export class ShopAddComponent implements OnInit {
        this.cartService.addProductToCart(this.cartId, {_id: this.productId, quantity: this.quantity}).subscribe(data => {
          this.updateLocalStorage(data);
          this.cartService.carProduct = this.authService.userCart.products;
+         this.setTotalPrice();
+         this.updateCartPrice();
          this.dialogRef.close();
       });
     }
@@ -101,21 +98,23 @@ export class ShopAddComponent implements OnInit {
         console.log(index);
       });
       this.totalPrice = data.cart.totalCartPrice;
+      console.log(this.totalPrice);
       // this.setTotalPrice();
     });
   }
   setTotalPrice() {
+    this.totalPrice  = 0;
     for (const  i  of this.currentCartProducts) {
       console.log(`Set price | item = ${this.productList[i._id].price}`);
       console.log(`quantity = ${i.quantity}`);
       this.totalPrice += i.quantity *   this.productList[i._id].price;
-      console.log(this.totalPrice);
     }
   }
   updateCartPrice() {
     const totalCartPrice = {totalCartPrice: this.totalPrice};
     this.cartService.setCartTotalPrice(this.cartId, totalCartPrice, this.userToken).subscribe(data => {
       this.updateLocalStorage(data);
+      this.cartService.cart = data;
     });
   }
 
@@ -123,6 +122,7 @@ export class ShopAddComponent implements OnInit {
     this.authService.storecartData(cartData);
     this.authService.loadUserCart();
     this.currentCartProducts = this.authService.userCart.products;
+    this.cartService.cartTotalPrice =  this.totalPrice;
   }
 
 }

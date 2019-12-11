@@ -26,7 +26,9 @@ export class ShopComponent implements OnInit {
   cart: Cart;
   currentCartProducts: Product[];
   categories: Category[];
-  totalCartPrice: number = 0;
+  cartStatus: any;
+  totalCartPrice: number ;
+  totalPrice: number;
   totalCartProductsQuantity: number;
   constructor(
     private productService: ProductService,
@@ -44,11 +46,10 @@ export class ShopComponent implements OnInit {
     this.userId = this.authService.currentUserData.id;
     this.userToken = this.authService.currentUserToken;
     this.getUserCartStatus();
+    // TODO: fix this issue - get null on userCart._idrs
     this.cartId = this.authService.userCart._id;
-    this.totalCartPrice = this.authService.userCart.totalCartPrice;
     this.getAllProducts();
     this.getAllCategories();
-    console.log(this.totalCartPrice);
   }
 
   openDialog(product, productList): void {
@@ -72,40 +73,32 @@ export class ShopComponent implements OnInit {
    // TODO: Fix this issue
    getUserCartStatus() {
     this.cartService.getUserCartStatus(this.userId,this.userToken).subscribe( data => {
-      console.log(data);
       if (data.status === 0) {
         this.authService.storecartData(data.cart);
         console.log('Status = 0');
         this.cartService.carProduct = data.cart.products;
-        console.log(this.cartService.carProduct);
+        this.cartService.cartTotalPrice = data.cart.totalCartPrice;
       } else if (data.status === 1) {
         this.authService.storecartData(data.cart);
         console.log('Status  = 1');
         // TODO: cahnge
-        // this.currentCartProducts = data.cart.products;
         this.cartService.carProduct = data.cart.products;
-        console.log(this.cartService.carProduct);
-
+        this.cartService.cartTotalPrice = data.cart.totalCartPrice;
         console.log(this.currentCartProducts);
       } else {
         console.log('Cart is Empty');
         const userId = {userId: this.userId};
-        // tslint:disable-next-line:no-shadowed-variable
         this.cartService.createCart(this.userId).subscribe( data  => {
          this.authService.storecartData(data.cart);
         });
       }
        // TODO: cahnge
-      // this.currentCartProducts = data.cart.products;
-      console.log(data.cart.products);
       this.authService.storecartData(data.cart);
-    //  totalPrice
     });
   }
   getAllCategories() {
     this.categoryService.getCategories().subscribe(data => {
       this.categories = data;
-      // this.isLoading = false;
     });
   }
   convertJson(jsonData) {
@@ -126,20 +119,23 @@ export class ShopComponent implements OnInit {
     this.cartService.deleteProductFromCart(this.cartId, cartItemId, this.userToken).subscribe(data => {
       console.log(data);
       this.updateLocalStorage(data);
-      // this.currentCartProducts = data;
+      this.setTotalPrice();
+      this.updateCartPrice();
     });
   }
+  // TODO: Fix this
   emptyCart() {
-    console.log('bal');
     this.cartService.deleteAllProductsFromCart(this.cartId, this.userToken).subscribe(data => {
-      console.log(data);
+      console.log(`The return data after empty cart ->  ${data}`);
       this.updateLocalStorage(data);
       this.cartService.carProduct = this.authService.userCart.products;
-      // this.setTotalPrice();
-      // this.setTotalCartProductsQuantity();
+      console.log(`Calling to setPrice`);
+      this.setTotalPrice();
+      this.updateCartPrice();
     });
-    // const status = {isOpen: 0};
-    // const cartId = this.cartId;
+    const status = {isOpen: 0};
+    const cartId = this.cartId;
+    // TODO: Fix this
     // this.updateCartStatus(cartId, status);
     // this.quantity = 0;
   }
@@ -148,10 +144,27 @@ export class ShopComponent implements OnInit {
   updateLocalStorage(cartData) {
     this.authService.storecartData(cartData);
     this.authService.loadUserCart();
-    // TODO: cahnge
-    console.log(this.authService.userCart.products);
-    // this.currentCartProducts = this.authService.userCart.products;
     this.cartService.carProduct = this.authService.userCart.products;
+    this.cartService.cartTotalPrice = this.totalCartPrice;
+  }
+
+  setTotalPrice() {
+    console.log(`The total price before set price to zero -> ${this.totalCartPrice}`);
+    this.totalCartPrice  = 0;
+    for (const  i  of this.cartService.carProduct) {
+      console.log(`Set price | item = ${this.productsObj[i._id].price}`);
+      console.log(`quantity = ${i.quantity}`);
+      this.totalCartPrice += i.quantity *   this.productsObj[i._id].price;
+      console.log(`The total price = ${this.totalCartPrice}`);
+    }
+  }
+
+  updateCartPrice() {
+    const totalCartPrice = {totalCartPrice: this.totalCartPrice};
+    this.cartService.setCartTotalPrice(this.cartId, totalCartPrice, this.userToken).subscribe(data => {
+      this.updateLocalStorage(data);
+      this.cartService.cart = data;
+    });
   }
   }
 

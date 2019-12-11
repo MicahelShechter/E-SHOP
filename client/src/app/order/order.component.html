@@ -1,0 +1,118 @@
+
+<button mat-raised-button color="accent" routerLink="/shop">Back To the Shop</button>
+<div *ngIf="this.currentCartProducts.length  === 0 else cart ">
+  Your cart is Empty
+</div>
+<!--  Cart-->
+<ng-template #cart >
+<div
+  class="container"
+  fxLayoutAlign="center"
+  fxLayoutGap="10px"
+  fxLayout ="row wrap"
+  fxLayoutGap.xs="column"
+>
+  <div fxFlex="45%" fxFlexAlign="center" id="shoppingCart" >
+  <div>
+    <mat-card >
+      <mat-card-title>
+        <h2>Your cart:</h2>
+        <h2>Cart price:{{this.totalCartPrice| currency: USD}}</h2>
+      </mat-card-title>
+      <mat-card-content *ngFor ="let product of  this.currentCartProducts " >
+        <p><span>{{this.productsObj[product._id].name}}</span>
+        <p><span>quantity:{{product.quantity}}</span></p>
+        <img src="{{this.productsObj[product._id].imageURL}}" alt="">
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+
+<!--Order -->
+<div fxFlex="45%" fxFlexAlign="center" >
+<mat-card id="orderCard">
+  <mat-card-title>
+    Shopping details
+  </mat-card-title>
+<mat-card-content>
+  <form [formGroup] ="orderForm"  (ngSubmit)="orderSubmit()">
+    <mat-form-field fxLayoutAlign="center">
+      <mat-label>Your City</mat-label>
+      <mat-select placeholder="City" formControlName="city">
+        <mat-option value="Tel-Aviv">
+          Tel-Aviv
+        </mat-option>
+        <mat-option value="Ramat-Gan">
+          Ramat-Gan
+        </mat-option>
+        <mat-option value="Rehovot">
+          Rehovot
+        </mat-option>
+        <mat-option value="Haifa">
+          Haifa
+        </mat-option>
+        <mat-option value="Beer Sheva">
+          Beer Sheva
+        </mat-option>
+        <mat-option value="Jerusalem">
+          Jerusalem
+        </mat-option>
+        <mat-option value="Eliat">
+          Eliat
+        </mat-option>
+        <mat-option value="Rishon Le Zion">
+          Rishon Le Zion
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field fxLayoutAlign="center">
+      <mat-label>Street</mat-label>
+
+      <input matInput
+             formControlName="street"
+             id="street"
+             type="text"
+             (dblclick)="getUserAddress()"         >
+      <mat-hint>Hint: Double click to fill your address</mat-hint>
+      <mat-error *ngIf="orderForm.get('street').errors?.serverError">
+        {{ orderForm.get('street').errors?.serverError }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field  fxLayoutAlign="center" >
+    <mat-label>Shipping Date</mat-label>
+    <input matInput
+           formControlName="shippingDate"
+           placeholder="Choose a date"
+           readonly
+           [matDatepicker]="shippingDate"
+           [matDatepickerFilter]="myFilter"
+           [min]="minDate"
+           (click)="shippingDate.open()">
+      <mat-datepicker-toggle matSuffix [for]="shippingDate"></mat-datepicker-toggle>
+      <mat-datepicker touchUi [dateClass]="dateClass" #shippingDate></mat-datepicker>
+      <mat-hint>A red date indicates that all deliveries are busy</mat-hint>
+      <mat-error *ngIf="orderForm.get('shippingDate').errors?.serverError">
+        {{ orderForm.get('shippingDate').errors?.serverError }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field fxLayoutAlign="center"  >
+      <mat-label>Credit Card</mat-label>
+      <input matInput
+             formControlName="creditCard"
+             id="creditCard"
+             type="number">
+      <mat-error *ngIf="orderForm.get('creditCard').errors?.serverError">
+        {{ orderForm.get('creditCard').errors?.serverError }}
+      </mat-error>
+    </mat-form-field>
+    <mat-card-actions fxLayoutAlign="center" >
+      <button mat-raised-button   color="accent" type="submit">Submit Your Order</button>
+    </mat-card-actions>
+  </form>
+</mat-card-content>
+</mat-card>
+</div>
+</div>
+</ng-template>

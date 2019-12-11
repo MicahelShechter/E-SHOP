@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import {User} from '../models/User';
 
 
 @Component({
@@ -9,6 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  userData: User;
 
   constructor(
     private authService: AuthService,
@@ -18,6 +20,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.authService.loadUserPayload();
     this.authService.isUserLoggedIn();
+    this.userData = this.authService.currentUserData;
+    console.log(this.userData);
   }
   onlogOut() {
     this.authService.logoutUser();

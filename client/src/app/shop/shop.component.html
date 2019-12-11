@@ -7,7 +7,7 @@
     </div>
     <ng-template #CartDetail>
       <h2>Your cart:</h2>
-      <h2>Cart price:{{totalCartPrice}}</h2>
+      <h2>Cart price:{{this.cartService.cartTotalPrice| currency: USD}}</h2>
       <button id ="emptyCart" mat-raised-button color="accent" (click)="emptyCart()" >Empty Cart</button>
       <div
 

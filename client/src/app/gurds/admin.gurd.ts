@@ -14,10 +14,15 @@ export class AdminGuard implements CanActivate{
     this.authService.loadToken();
     this.userToken = this.authService.currentUserToken;
     const tokenInfo = this.authService.getDecodedAccessToken(this.userToken);
-    if (this.authService.isUserLoggedIn() && tokenInfo.isAdmin === true) {
+    console.log(tokenInfo);
+    console.log(this.authService.isUserLoggedIn());
+    if (this.authService.isUserLoggedIn() && tokenInfo.admin === true) {
+      console.log('condition is true');
       return true;
     } else{
-      this.router.navigate(['dashboard']);
+      console.log('condition is false');
+      console.log(tokenInfo);
+      this.router.navigate(['shop']);
       return false;
     }
   }

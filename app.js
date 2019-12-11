@@ -10,6 +10,7 @@ const usersRouter = require('./routes/users');
 const  productsRouter = require('./routes/product');
 const categoryRoute = require('./routes/category');
 const cartRouter = require('./routes/cart');
+const orderRouter = require('./routes/order');
 
 
 //Connect DB
@@ -28,6 +29,7 @@ app.use('/api/users', usersRouter);
 app.use('/api/product',productsRouter);
 app.use('/api/category',categoryRoute);
 app.use('/api/cart',cartRouter);
+app.use('/api/order',orderRouter);
 
 
 module.exports = app;

@@ -29,6 +29,10 @@ import {AuthGuard} from './gurds/auth.gurd';
 import {AdminGuard} from './gurds/admin.gurd';
 import { HomeComponent } from './home/home.component';
 import { CountUpModule } from 'countup.js-angular2';
+import { OrderComponent } from './order/order.component';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from "@angular/material/core";
 
 
 @NgModule({
@@ -44,24 +48,28 @@ import { CountUpModule } from 'countup.js-angular2';
     AddComponent,
     ShopAddComponent,
     RegisterComponent,
-    HomeComponent
+    HomeComponent,
+    OrderComponent
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MaterialModule,
-    FlexLayoutModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-    AppRoutingModule,
-    MatListModule,
-    MatButtonToggleModule,
-    MatTableModule,
-    MatMenuModule,
-    CountUpModule
-  ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MaterialModule,
+        FlexLayoutModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+        AppRoutingModule,
+        MatListModule,
+        MatButtonToggleModule,
+        MatTableModule,
+        MatMenuModule,
+        CountUpModule,
+        MatGridListModule,
+        MatDatepickerModule,
+        MatNativeDateModule
+    ],
   entryComponents: [EditComponent, AddComponent, ShopAddComponent],
   providers: [AuthService, ProductService, AuthGuard, AdminGuard],
   bootstrap: [AppComponent]

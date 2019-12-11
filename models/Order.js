@@ -23,7 +23,7 @@ const  OrderSchema = new Schema({
         type: String,
         required: true
     },
-    deliveryDAte:{
+    shippingDate:{
         type: Date,
         required: true
     },

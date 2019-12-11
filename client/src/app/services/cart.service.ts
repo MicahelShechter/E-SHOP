@@ -11,6 +11,7 @@ import { AuthService} from '../services/auth.service';
 export class CartService {
   cart: Cart;
   carProduct: Product[];
+  cartTotalPrice: number;
 
   constructor(private http: HttpClient,
               private authService: AuthService

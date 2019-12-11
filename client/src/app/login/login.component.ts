@@ -22,6 +22,9 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    if (this.authService.isUserLoggedIn()){
+      this.router.navigate(['/shop']);
+    }
 
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -52,7 +55,7 @@ export class LoginComponent implements OnInit {
               this.router.navigate(['shop']);
             }
       }, error => {
-        console.log(error.error.msg);
+        console.log(error);
       });
     }
   }
