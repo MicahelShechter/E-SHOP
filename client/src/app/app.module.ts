@@ -33,6 +33,9 @@ import { OrderComponent } from './order/order.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from "@angular/material/core";
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { OrderModalComponent } from './order/order-modal/order-modal.component';
+
 
 
 @NgModule({
@@ -49,7 +52,8 @@ import {MatNativeDateModule} from "@angular/material/core";
     ShopAddComponent,
     RegisterComponent,
     HomeComponent,
-    OrderComponent
+    OrderComponent,
+    OrderModalComponent
   ],
     imports: [
         BrowserModule,
@@ -68,9 +72,10 @@ import {MatNativeDateModule} from "@angular/material/core";
         CountUpModule,
         MatGridListModule,
         MatDatepickerModule,
-        MatNativeDateModule
+        MatNativeDateModule,
+        MatSnackBarModule
     ],
-  entryComponents: [EditComponent, AddComponent, ShopAddComponent],
+  entryComponents: [EditComponent, AddComponent, ShopAddComponent, OrderModalComponent],
   providers: [AuthService, ProductService, AuthGuard, AdminGuard],
   bootstrap: [AppComponent]
 })

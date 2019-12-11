@@ -8,6 +8,10 @@ import {Cart} from '../models/Cart';
 import {Product} from '../models/Product';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import {MatDialog, MatDialogConfig} from '@angular/material';
+import {OrderModalComponent} from "./order-modal/order-modal.component";
+
+
 
 @Component({
   selector: 'app-order',
@@ -32,7 +36,8 @@ export class OrderComponent implements OnInit {
     private productService: ProductService,
     private orderService: OrderService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -41,6 +46,7 @@ export class OrderComponent implements OnInit {
     this.authService.loadToken();
     this.userToken = this.authService.currentUserToken;
     this.userId = this.authService.userCart.userId;
+    console.log(this.userId);
     this.cartId = this.authService.userCart._id;
     this.getCartTotalPrice();
     this.currentCartProducts = this.authService.userCart.products;
@@ -103,11 +109,11 @@ export class OrderComponent implements OnInit {
         };
         localStorage.setItem('orderDates', JSON.stringify(orderDates));
 
-        const userId = {userId: this.userId};
-        this.cartService.createCart(userId).subscribe(data => {
+        // const userId = {userId: this.userId};
+        this.cartService.createCart(this.userId).subscribe(data => {
           this.authService.storecartData(data.cart);
         });
-        this.router.navigate(['shop']);
+        this.openDialog();
       }
     }, err => {
       if (err.status === 400) {
@@ -116,7 +122,6 @@ export class OrderComponent implements OnInit {
           const formControl = this.orderForm.get(prop);
           if (formControl) {
             console.log(formControl)
-            // activate the error messages
             formControl.setErrors({
               serverError: err.error[prop]
             });
@@ -148,4 +153,13 @@ export class OrderComponent implements OnInit {
     const day: any = d.getDay();
     return (this.fullyBookedDates.includes(d.valueOf())) ? 'occupied-date-class' : undefined;
   }
+
+  openDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    this.dialog.open(OrderModalComponent, dialogConfig);
+  }
 }
+

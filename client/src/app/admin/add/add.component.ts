@@ -29,7 +29,6 @@ export class AddComponent implements OnInit {
     });
   }
   save() {
-   console.log(`save function called`);
    const newProductData = this.addProductForm.getRawValue();
    const newProduct = {
      name: newProductData.name,

@@ -58,7 +58,6 @@ export class AdminComponent implements OnInit {
   getAllCategories() {
     this.categoryService.getCategories().subscribe(data => {
       this.categories = data;
-      console.log(data);
     }
     );
   }

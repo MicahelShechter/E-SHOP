@@ -21,7 +21,6 @@ export class HeaderComponent implements OnInit {
     this.authService.loadUserPayload();
     this.authService.isUserLoggedIn();
     this.userData = this.authService.currentUserData;
-    console.log(this.userData);
   }
   onlogOut() {
     this.authService.logoutUser();

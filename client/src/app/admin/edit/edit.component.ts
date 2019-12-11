@@ -10,7 +10,6 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 })
 export class EditComponent implements OnInit {
   editProductForm: FormGroup;
-  // adminToken: any;
 
   constructor(
     private productService: ProductService,

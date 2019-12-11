@@ -7,11 +7,11 @@ const auth = require("../middleware/auth");
 // TODO: Check the route error
 router.post("/createCart",async (req, res) => {
     console.log(req.body);
-    console.log(req.body.userId);
+    console.log(req.body.userId.userId);
     const cart = new Cart({
         userId: req.body.userId,
         isOpen: 0,
-        totalCartPrice: 1,
+        totalCartPrice: 0,
         date: new Date(),
 
     });

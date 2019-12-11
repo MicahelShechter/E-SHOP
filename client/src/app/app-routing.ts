@@ -10,6 +10,7 @@ import {AuthGuard} from './gurds/auth.gurd';
 import {AdminGuard} from './gurds/admin.gurd';
 import {OrderComponent} from './order/order.component';
 
+
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'register', component: RegisterComponent },

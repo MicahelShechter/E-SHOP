@@ -23,11 +23,10 @@
           <p><span>quantity:{{product.quantity}}</span></p>
         <img src="{{productsObj[product._id].imageURL}}" alt="">
       </mat-card>
-
-
-
-
  </div>
+      <mat-card-actions>
+        <button mat-raised-button color="accent" routerLink="/order">Proceed to checkout</button>
+      </mat-card-actions>
     </ng-template>
     <mat-nav-list>
     </mat-nav-list>
